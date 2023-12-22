@@ -55,11 +55,13 @@ def found_in_pdf(search_key, pages, verbose):
 
 def rename_that_bitch(old_file_name, provider):
     formatted_date = datetime.now().date().strftime("%Y-%m-%d")
-    new_file_name_to_rename = formatted_date + "-" + provider + ".pdf"
-
-    new_pdf_file_path = os.path.join(pdf_scan_path, new_file_name_to_rename)
+    new_pdf_file_path = os.path.join(pdf_scan_path, formatted_date + "-" + provider + ".pdf")
+    i = 0
+    while os.path.exists(new_pdf_file_path):
+        i += 1
+        new_pdf_file_path = os.path.join(pdf_scan_path, formatted_date + "." + str(i) + "-" + provider + ".pdf")
     os.rename(old_file_name, new_pdf_file_path)
-    print("File " + old_file_name + " has been renamed to " + new_pdf_file_path + ".")
+    print("File " + old_file_name + " has been renamed to " + str(new_pdf_file_path) + ".")
 
 
 def _main():
@@ -104,12 +106,12 @@ def _main():
 
     # Print the matched keywords
     if matched_keywords:
-        print("==============================================================Matched keywords found in the following PDFs:")
+        print("=============================================Matched keywords found in the following PDFs:")
         for keyword in matched_keywords:
             print(keyword)
 
     if unmatched_keywords:
-        print("==============================================================Unmatched keywords in following PDFs:")
+        print("=============================================Unmatched keywords in following PDFs:")
         for keyword in unmatched_keywords:
             print(keyword)
     else:

@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08888ee9-e7f3-4c27-b467-305eb244fed5" name="Changes" comment="First Commit: working version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ScanManager.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ScanManager.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ScanPDF.py" beforeDir="false" afterPath="$PROJECT_DIR$/ScanPDF.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/keywords.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/res/keywords.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +32,7 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Python.ScanPDF -p env/prod.properties.executor": "Debug",
-    "Python.ScanPDF.executor": "Debug",
+    "Python.ScanPDF.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
