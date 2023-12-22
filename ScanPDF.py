@@ -2,19 +2,28 @@ from datetime import datetime
 from jproperties import Properties
 import pandas as pd
 import pypdf
+import sys
 import os
 
+
+application_path = ''
+if getattr(sys, 'frozen', False):
+    application_path = os.path.dirname(sys.executable)
+elif __file__:
+    application_path = os.path.dirname(__file__)
+
+print('application_path is ' + application_path)
+properties_path = os.path.join(application_path, 'env/prod.properties')
+
 configs = Properties()
-with open('env/prod.properties', 'rb') as read_prop:
+with open(properties_path, 'rb') as read_prop:
     configs.load(read_prop)
 
-# Path constructions
-resource_path = configs.get("path.resource").data
-# Path to the Excel file with keywords
-excel_file_path = resource_path + configs.get("scan.keywords").data
-# Path to the PDFs to scan
-pdf_path = configs.get("scan.folder").data
+resource_path = os.path.join(application_path, configs.get('path.resource').data)
+excel_file_path = resource_path + "/" + configs.get('scan.keywords').data
 
+# Path to the PDFs to scan
+pdf_scan_path = configs.get("scan.folder").data
 # Read the Excel file into a DataFrame
 xlsDataFrame = pd.read_excel(excel_file_path)
 
@@ -48,20 +57,20 @@ def rename_that_bitch(old_file_name, provider):
     formatted_date = datetime.now().date().strftime("%Y-%m-%d")
     new_file_name_to_rename = formatted_date + "-" + provider + ".pdf"
 
-    new_pdf_file_path = os.path.join(pdf_path, new_file_name_to_rename)
+    new_pdf_file_path = os.path.join(pdf_scan_path, new_file_name_to_rename)
     os.rename(old_file_name, new_pdf_file_path)
-    print(f"File " + old_file_name + " has been renamed to " + new_pdf_file_path + ".")
+    print("File " + old_file_name + " has been renamed to " + new_pdf_file_path + ".")
 
 
 def _main():
-    if os.path.exists(pdf_path) and os.path.isdir(pdf_path):
+    if os.path.exists(pdf_scan_path) and os.path.isdir(pdf_scan_path):
         # List all items (files and directories) in the specified folder
-        pdf_file_list = os.listdir(pdf_path)
+        pdf_file_list = os.listdir(pdf_scan_path)
 
         # Iterate through the items and filter for files
         for pdf_file in pdf_file_list:
             # print("iterating over " + pdf_file)
-            pdf_file_path = os.path.join(pdf_path, pdf_file)  # Get the full path of the item
+            pdf_file_path = os.path.join(pdf_scan_path, pdf_file)  # Get the full path of the item
 
             if os.path.isfile(pdf_file_path) and os.path.splitext(pdf_file_path)[1] == ".pdf":
                 pdf_reader = pypdf.PdfReader(pdf_file_path)
@@ -74,17 +83,16 @@ def _main():
                         break
                     search_key_found = False
                     for (columnName, columnData) in xlsDataFrame.items():   # remember file name
-                        xlsKey = row[columnName]
+                        xls_key = row[columnName]
                         if xlsDataFrame.columns.get_loc(columnName) == 0:   # skip 1st column w file names
-                            new_file_name = xlsKey
+                            new_file_name = xls_key
                         else:
-                            if not pd.isnull(xlsKey):
-                                if xlsKey.strip() and found_in_pdf(xlsKey, pdf_pages, False):
+                            if not pd.isnull(xls_key):
+                                if xls_key.strip() and found_in_pdf(xls_key, pdf_pages, False):
                                     search_key_found = True
-                                    matched_keywords.append(columnName + " : " + xlsKey + " found in file : " + pdf_file)
+                                    matched_keywords.append(columnName + " : " + xls_key + " found in file : " + pdf_file)
                                 else:
                                     search_key_found = False
-                                    # unmatched_keywords.append(columnName + " : " + xlsKey + " NOT found in file : " + pdf_file)
                                 if not search_key_found:    # means we didn't find what we were looking for => next row!
                                     break       # break from xls row to search
                             else:
