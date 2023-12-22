@@ -72,7 +72,7 @@ def _main():
             # print("iterating over " + pdf_file)
             pdf_file_path = os.path.join(pdf_scan_path, pdf_file)  # Get the full path of the item
 
-            if os.path.isfile(pdf_file_path) and os.path.splitext(pdf_file_path)[1] == ".pdf":
+            if os.path.isfile(pdf_file_path) and (os.path.splitext(pdf_file_path)[1]).lower() == ".pdf":
                 pdf_reader = pypdf.PdfReader(pdf_file_path)
                 pdf_pages = cache_pdf_pages(pdf_reader)
 
