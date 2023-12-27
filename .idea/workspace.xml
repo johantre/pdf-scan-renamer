@@ -32,7 +32,7 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Python.ScanPDF -p env/prod.properties.executor": "Debug",
-    "Python.ScanPDF.executor": "Run",
+    "Python.ScanPDF.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -112,5 +112,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First Commit: working version" />
     <option name="LAST_COMMIT_MESSAGE" value="First Commit: working version" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ScanPDF.py</url>
+          <line>80</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

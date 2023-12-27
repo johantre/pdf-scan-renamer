@@ -57,9 +57,15 @@ def rename_that_bitch(old_file_name, provider):
     formatted_date = datetime.now().date().strftime("%Y-%m-%d")
     new_pdf_file_path = os.path.join(pdf_scan_path, formatted_date + "-" + provider + ".pdf")
     i = 0
-    while os.path.exists(new_pdf_file_path):
+    while (os.path.exists(new_pdf_file_path) or
+           os.path.exists(os.path.join(pdf_scan_path, formatted_date + ".1-" + provider + ".pdf"))):
         i += 1
+        uncount_filename = ""
+        if i == 1:
+            uncount_filename = new_pdf_file_path
         new_pdf_file_path = os.path.join(pdf_scan_path, formatted_date + "." + str(i) + "-" + provider + ".pdf")
+        if i == 1:
+            os.rename(uncount_filename, new_pdf_file_path)
     os.rename(old_file_name, new_pdf_file_path)
     print("File " + old_file_name + " has been renamed to " + str(new_pdf_file_path) + ".")
 
